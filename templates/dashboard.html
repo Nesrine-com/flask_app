@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+<body>
+  
+      <div class="row">
+         <div class="col-6">
+            <br>
+             <h1> {{user.first_name}}  {{user.last_name}}  !</h1>
+             <br>
+             <h3> All Tv Shows :</h3>
+             <table class="table  table-striped">
+                <thead>
+                    <tr>
+                        <td>Title</td>
+                        <td>Network</td>
+                        <td>Release_date</td>
+                        <td>Actions</td>
+                        <td>like</td>
+                        
+                        
+                    </tr>
+                </thead>
+                {% for tvshow in tvshows %}
+                <tbody>
+                    <tr>
+                        <td>{{tvshow.title}}</td>
+                        <td>{{tvshow.network}}</td>
+                        <td>{{tvshow.Release_date.strftime('%B %d %Y')}}</td>
+                        
+                        <td>
+                            <a href="/shows/{{tvshow.id}}">Show</a>
+                            {% if tvshow.user_id == user.id%}
+                            | <a href="/shows/edit/{{tvshow.id}}">Edit</a> | <a href="/shows/delete/{{tvshow.id}}">Delete</a>
+                             {% endif %}      
+                        </td>
+                        <td>
+                            {% if tvshow.user_id != user.id%}
+                             <form action="/add_like/{{tvshow.id}}/{{user.id}}" method="POST">
+                                 <a href="">Like</a>
+                              </form>
+                              <form action="/remove_like/{{tvshow.id}}/{{user.id}}" method="POST">
+                                     <a href="">Unlike</a>
+                               </form>
+                             {%endif%}
+                        </td>
+                    </tr>
+                </tbody>
+                {%endfor%}
+             </table>
+             
+           </div>
+
+         <div class="d-flex col-4 justify-content-around">
+            
+              <a href="/shows/new">+ create</a>
+             <a href="/logout">logout</a>
+         </div>
+      </div>
+ 
+</body>
+</html>
